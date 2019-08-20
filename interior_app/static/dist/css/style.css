@@ -1,0 +1,45 @@
+.img-center {
+	margin: 135px;
+}
+section.content .choose-files {
+	background-color: #fff;
+	position: relative;
+}
+section.content .form-element h4 {
+	margin: 0;
+    font-weight: bold;	
+}
+section.content .choose-files .form-group .form-control-file {
+	visibility: hidden;
+}
+section.content .choose-files button {
+	padding: 8px 13px;
+    border-radius: 3px;
+    font-weight: bold;
+}
+section.content .choose-files button:hover {
+	border: 1px solid #3c8dbc;
+}
+section.content .choose-files button:active {
+	border: none;
+}
+section.content .choose-files button:focus {
+	box-shadow: none;
+	outline: 0;
+}
+section.content .choose-files .form-group .form-control-file:before {
+	content: attr(data-title);
+    position: absolute;
+    top: -17px;
+    left: 141px;
+    width: 100%;
+    min-height: 6em;
+    line-height: 2em;
+    padding-top: 1.5em;
+    opacity: 1;
+    visibility: visible;
+    transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
+    overflow: hidden;
+    color: grey;
+}
+
