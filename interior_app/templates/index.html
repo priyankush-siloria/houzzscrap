@@ -1,0 +1,240 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>DASHBOARD</title>
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <link rel="stylesheet" href="{% static 'bower_components/bootstrap/dist/css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'bower_components/font-awesome/css/font-awesome.min.css' %}">
+  <link rel="stylesheet" href="{% static 'bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'bower_components/Ionicons/css/ionicons.min.css' %}">
+  <link rel="stylesheet" href="{% static 'dist/css/AdminLTE.css' %}">
+  <link rel="stylesheet" href="{% static 'plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css' %}">
+  <link rel="stylesheet" href="{% static 'dist/css/skins/_all-skins.min.css' %}">
+
+
+  <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script> 
+  <script src="https://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" />
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+  <!-- Google Font -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+
+<style type="text/css">  
+  .locations { text-transform: uppercase; }
+</style>
+
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+
+  <header class="main-header">
+    <!-- Logo -->
+    <a href="index2.html" class="logo">
+      <span class="logo-mini"><b>DASHBOARD</b></span>
+      <span class="logo-lg"><b>DASHBOARD</b></span>
+    </a>
+    <!-- Header Navbar: style can be found in header.less -->
+    <nav class="navbar navbar-static-top">
+      <!-- Sidebar toggle button-->
+      <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+        <span class="sr-only">Toggle navigation</span>
+      </a>
+
+      <!-- <div class="navbar-custom-menu">
+        <ul class="nav navbar-nav">
+          <li>
+            <a href="#" class="btn btn-flat">Sign out</a>
+          </li>
+        </ul>
+      </div> -->
+    </nav>
+  </header>
+  <!-- Left side column. contains the logo and sidebar -->
+  <aside class="main-sidebar">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+      <!-- Sidebar user panel -->
+     
+     <ul class="sidebar-menu tree" data-widget="tree">
+      
+          <li class="active ">
+            <a href="{% url 'dashboard'%}"><i class="fa fa-dashboard"></i> Add locations</a>
+          </li>
+         
+          <li class="Database"><a href="{% url 'database'%}"><i class="fa fa-table"></i><span>Database</span></a></li>
+      </ul>
+       
+    </section>
+    <!-- /.sidebar -->
+  </aside>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Dashboard
+        <small>Control panel</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Dashboard</li>
+      </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">   
+
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box box-main-section">
+            <div class="box-header box-main-header">
+              <label><strong>Location:</strong></label>
+              <input id="loc" type="text" name="location"/>
+              <a id="Add" href="javascript:void(0)">Add location</a>             
+            
+            </div>
+            <!-- /.box-header -->
+
+            <div class="box-body box-main-body">    
+              <!-- <form action="" method="POST"> {% csrf_token %} -->
+                <div id="checkboxDiv">                                              
+                </div><br>
+                <button id="options" type="submit" value="Start Scraping"> Start Scraping</button>
+              <!-- </form> -->
+            </div>
+            <br>
+            <!-- <div id="dialog" title="Scrap_msg" hidden="hidden">
+              <p>Scrapping started</p>
+            </div> -->
+          </div>
+        </div>
+      </div>
+    </section>   
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+  <footer class="main-footer">
+    <div class="pull-right hidden-xs">     
+    </div>
+    <strong>Copyright &copy; 2014-2016 <a href="#">DASHBOARD</a>.</strong> All rights
+    reserved.
+  </footer>
+</div>
+<!-- ./wrapper -->
+
+<script src="{% static 'bower_components/jquery/dist/jquery.min.js' %}"></script>
+<script src="{% static 'bower_components/jquery-ui/jquery-ui.min.js'%}"></script>
+<script src="{% static 'bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'bower_components/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
+<script src="{% static 'dist/js/adminlte.min.js' %}"></script>
+<script src="{% static 'dist/js/pages/dashboard.js' %}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+<script type="text/javascript" >
+
+  $(document).ready(function() {
+      console.log("load")
+      var scrape_status;
+
+      loadLocations();
+      
+        $("#Add").on("click", function() { 
+         var location = $("#loc").val();
+          if(location==="" || location===undefined || location===null){
+            alert("location cannot be blank");
+          }
+          else{        
+            $.ajax({            
+                type: "POST",
+                url: "{% url 'add_location' %}",
+                data: {'location':$("#loc").val()},
+                dataType: 'json',
+                traditional: true,
+                success: function(data) {
+                  console.log(" Location saved ", data)
+                  if (data.status =="success"){
+                    $("#loc").val("");
+                    $("#checkboxDiv").append("<input id='myCheckbox' name='locations' type='checkbox' class='locations' value='"+data.loc+"'/> " +data.loc+ "<br>");
+                  }
+                  else{
+                    alert("location already exist..");
+                  }
+                }
+            });
+          }
+        });
+
+  });  
+
+
+$(document).on('click', '#options',function(e){     
+
+      if (scrape_status == false) {
+  
+        alert(" Scrapping Started ...... ");
+
+         var favorite = [];
+          $.each($("input[name='locations']:checked"), function(){ 
+              console.log("Value: ",$(this).val())           
+              favorite.push($(this).val());
+          });
+          var locations = favorite.join(", ")
+        
+        $.ajax({
+          type:"POST",
+          url:"{% url 'scraper' %}",
+          data:{'cities':locations},
+          dataType: 'json',
+          traditional: true,
+          success: function(data) {
+            if(data.status == "success"){
+              alert("Scraping is finished. Data will be refelected on database page.")
+            }
+            else{
+              alert("Scraping is stopped due to some error .")
+            }
+          }
+        });
+
+      } else {
+        alert(" Scrapping already running ......");
+      }
+  });
+
+
+
+
+function loadLocations(){
+  $.ajax({            
+    type: "GET",
+    url: "{% url 'load_locations' %}",
+    dataType: 'json',
+    traditional: true,
+    success: function(data) {
+      for (var i = 0; i < data.locs.length; i++) {
+        $("#checkboxDiv").append("<input id='myCheckbox' name='locations' type='checkbox' class='locations' value='"+data.locs[i]+"'/> " +data.locs[i]+ "<br>");
+          scrape_status = data.ScrapeStatus
+          console.log("Scrape_status==========> ", scrape_status)
+          
+      }  
+    }
+  });
+
+}
+
+</script>
+
+</body>
+</html>

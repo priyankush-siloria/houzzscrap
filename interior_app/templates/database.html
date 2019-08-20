@@ -1,0 +1,204 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>DASHBOARD</title>
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <link rel="stylesheet" href="{% static 'bower_components/bootstrap/dist/css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'bower_components/font-awesome/css/font-awesome.min.css' %}">
+  <link rel="stylesheet" href="{% static 'bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'bower_components/Ionicons/css/ionicons.min.css' %}">
+  <link rel="stylesheet" href="{% static 'dist/css/AdminLTE.css' %}">
+  <link rel="stylesheet" href="{% static 'plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css' %}">
+  <link rel="stylesheet" href="{% static 'dist/css/skins/_all-skins.min.css' %}">
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+  <!-- Google Font -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css"/>
+  <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.dataTables.min.css"/>
+
+
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+
+  <header class="main-header">
+    <!-- Logo -->
+    <a href="index2.html" class="logo">
+      <span class="logo-mini"><b>DASHBOARD</b></span>
+      <span class="logo-lg"><b>DASHBOARD</b></span>
+    </a>
+    <!-- Header Navbar: style can be found in header.less -->
+    <nav class="navbar navbar-static-top">
+      <!-- Sidebar toggle button-->
+      <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+        <span class="sr-only">Toggle navigation</span>
+      </a>
+      
+    </nav>
+  </header>
+  <!-- Left side column. contains the logo and sidebar -->
+  <aside class="main-sidebar">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+      <!-- Sidebar user panel -->
+     
+     <ul class="sidebar-menu tree" data-widget="tree">
+      
+          <li class="active ">
+          <a href="{% url 'dashboard'%}"><i class="fa fa-dashboard"></i> Add locations</a></li>
+         
+          <li class="Database"><a href="{% url 'database'%}"><i class="fa fa-table"></i><span>Database</span></a></li>
+      </ul>
+       
+    </section>
+    <!-- /.sidebar -->
+  </aside>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Dashboard
+        <small>Control panel</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Dashboard</li>
+      </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">   
+
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box box-main-section">            
+            <!-- /.box-header -->
+            <!-- <div id="example_filter" class="dataTables_filter">
+              <label> Search:
+              <input type="search" class placeholder aria-controls="example">
+              </label>
+            </div> -->
+            <form method="get" action="{% url 'data_search' %}" class="form-inline" style="margin-top: 25px;margin-right: 25px;">
+              <div class="row">
+                <div class="col-lg-3 col-md-offset-5">
+                  <div class="form-group">
+                    <select name="categories" class="form-control">
+                      <option value="all">All</option>
+                      {% for category in categories %}
+                        {% if cat_search_item %}
+                            <option value="{{ category.slug }}" {% if cat_search_item == category %}selected{% endif %}>{{ category.name }}</option>
+                        {% else %}
+                          <option value="{{ category.slug }}">{{ category.name }}</option>
+                        {% endif %}
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+                <div class="col-lg-4">
+                  <div class="form-group">
+                    <input type="search" class="form-control" name="q" placeholder="Search" value="{% if search_item %}{{ search_item }}{% endif %}">
+                  </div>
+                  <button type="submit" class="btn btn-info pull-right"> Search </button>
+                </div>
+              </div>
+            </form>
+
+            <div class="box-body box-main-body">            
+
+              <table id="example2" class="table table-bordered table-hover approved-database"> 
+                <!-- class="display nowrap"   -->           
+                <thead>                
+                <tr>
+                  <th>Company Name</th>
+                  <th>Person Name</th>
+                  <th>Category</th>
+                  <th>Location</th>
+                  <th>Phone Number</th>
+                  <th>About Us</th>              
+                </tr>                
+                </thead>
+
+                <tbody>
+                {% for row in records %}
+                  <tr>
+                    <td>{{row.profile_name}}</td>
+                    <td>{{row.person_name}}</td>
+                    <td>{{row.categories.name}}</td>
+                    <td>{{row.location.location}}</td>
+                    <td>{{row.phone}}</td>
+                    <td>{{row.about_us}}</td>                 
+                  </tr> 
+                {% endfor %}  
+                </tbody>
+
+              </table>
+              </div>
+
+          </div>
+        </div>
+      </div>
+    </section>   
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+  <footer class="main-footer">
+    <div class="pull-right hidden-xs">
+     
+    </div>
+    <strong>Copyright &copy; 2014-2016 <a href="#">DASHBOARD</a>.</strong> All rights
+    reserved.
+  </footer>
+</div>
+<!-- ./wrapper -->
+
+<script src="{% static 'bower_components/jquery/dist/jquery.min.js' %}"></script>
+<script src="{% static 'bower_components/jquery-ui/jquery-ui.min.js'%}"></script>
+<script src="{% static 'bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'bower_components/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
+<script src="{% static 'dist/js/adminlte.min.js' %}"></script>
+<script src="{% static 'dist/js/pages/dashboard.js' %}"></script>
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.flash.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.print.min.js"></script>
+
+<script>
+
+  $(document).ready(function(){
+      $('#example2').DataTable({
+        "searching": true, 
+        "paging": true,       
+        dom: 'Bfrtip',
+        buttons: [
+               'csv', 'excel', 'pdf', 'pageLength'
+        ],      
+        "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]],
+          
+      });
+  });
+
+
+</script>
+</body>
+</html>
